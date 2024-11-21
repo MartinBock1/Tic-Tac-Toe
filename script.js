@@ -1,22 +1,22 @@
 let fields = [
     null,
-    'circle',
-    'circle',
     null,
-    'cross',
     null,
-    'cross',
+    null,
+    null,
+    null,
+    null,
     null,
     null,
 ];
 
+let currentPlayer = 'circle'; // Der Spieler, der als nächstes setzt
+
 function init() {
-    // Die Tabelle beim Laden der Seite rendern
     render();
 }
 
 function render() {
-    // Die Tabelle dynamisch generieren
     let tableHTML = '<table>';
     for (let row = 0; row < 3; row++) {
         tableHTML += '<tr>';
@@ -30,14 +30,98 @@ function render() {
                 symbol = generateCrossSVG();
             }
 
-            tableHTML += `<td>${symbol}</td>`;
+            if (!fields[index]) {
+                tableHTML += `<td onclick="handleClick(${index}, this)"></td>`;
+            } else {
+                tableHTML += `<td>${symbol}</td>`;
+            }
         }
         tableHTML += '</tr>';
     }
     tableHTML += '</table>';
-
-    // HTML in den Container rendern
     document.getElementById('content').innerHTML = tableHTML;
+}
+
+function handleClick(index, element) {
+    fields[index] = currentPlayer;
+
+    if (currentPlayer === 'circle') {
+        element.innerHTML = generateCircleSVG();
+    } else if (currentPlayer === 'cross') {
+        element.innerHTML = generateCrossSVG();
+    }
+
+    element.onclick = null;
+
+    // Überprüfen, ob das Spiel vorbei ist
+    const winner = checkWin();
+    if (winner) {
+        drawWinningLine(winner.line);
+    } else {
+        currentPlayer = currentPlayer === 'circle' ? 'cross' : 'circle';
+    }
+}
+
+function checkWin() {
+    const winningCombinations = [
+        [0, 1, 2], // Top row
+        [3, 4, 5], // Middle row
+        [6, 7, 8], // Bottom row
+        [0, 3, 6], // Left column
+        [1, 4, 7], // Middle column
+        [2, 5, 8], // Right column
+        [0, 4, 8], // Diagonal top-left to bottom-right
+        [2, 4, 6], // Diagonal top-right to bottom-left
+    ];
+
+    for (let combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (
+            fields[a] &&
+            fields[a] === fields[b] &&
+            fields[a] === fields[c]
+        ) {
+            return { player: fields[a], line: combination };
+        }
+    }
+    return null;
+}
+
+function drawWinningLine(line) {
+    // Zeichenbereich vorbereiten
+    const table = document.querySelector('table');
+    const firstCell = table.rows[Math.floor(line[0] / 3)].cells[line[0] % 3];
+    const lastCell = table.rows[Math.floor(line[2] / 3)].cells[line[2] % 3];
+
+    const firstRect = firstCell.getBoundingClientRect();
+    const lastRect = lastCell.getBoundingClientRect();
+
+    // SVG als HTML-String generieren
+    const svgHTML = `
+        <svg 
+            style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+            " 
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <line 
+                x1="${firstRect.x + firstRect.width / 2}" 
+                y1="${firstRect.y + firstRect.height / 2}" 
+                x2="${lastRect.x + lastRect.width / 2}" 
+                y2="${lastRect.y + lastRect.height / 2}" 
+                stroke="white" 
+                stroke-width="5"
+            />
+        </svg>
+    `;
+
+    // SVG-HTML in den Body einfügen
+    document.body.innerHTML += svgHTML;
 }
 
 function generateCircleSVG() {
