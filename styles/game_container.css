@@ -49,13 +49,13 @@ td:not(:last-child) {
 button {
    display: block;                              /* Block-Element, um zentrieren zu erleichtern */
    padding: 15px 30px;                          /* Vergrößert den Button durch Innenabstand */
-   font-size: 18px;                             /* Setzt eine gut lesbare Schriftgröße */
-   color: #fefefe;                            /* Weißer Text */
-   background-color: #00b0ef;                 /* Helles Blau für den Button-Hintergrund */
-   border-color: #fefefe;                     /* Weißer Border */
-   border-radius: 8px;                          /* Runde Ecken für ein modernes Design */
+   font-size: 18px;                             
+   color: #fefefe;                            
+   background-color: #00b0ef;                 
+   border-color: #fefefe;                     
+   border-radius: 8px;                          
    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);  /* Schatten für einen 3D-Effekt */
-   cursor: pointer;                             /* Ändert den Mauszeiger bei Hover in eine Hand */
+   cursor: pointer;                             
    transition: all 0.3s ease;                   /* Glatte Übergänge bei Hover */
 }
 
@@ -74,9 +74,10 @@ button:active {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px; /* Abstand unterhalb der Anzeige */
-    font-size: 24px; /* Optionale Schriftgröße für Text */
-    gap: 10px; /* Abstand zwischen Text und Symbol */
+    margin-bottom: 20px;         
+    font-size: 24px;             
+    gap: 10px;                   /* Abstand zwischen Text und Symbol */
+    height: 50px;
 }
 
 .player-display svg {

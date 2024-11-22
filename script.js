@@ -72,9 +72,22 @@ function render() {
     document.getElementById('content').innerHTML = tableHTML;
 }
 
+/** Zusammenfassung - updateCurrentPlayerDisplay()
+ * Diese Funktion aktualisiert das Anzeigeelement currentPlayerDisplay, um anzuzeigen, welcher Spieler aktuell
+ * am Zug ist. Je nach Spieler wird das passende Symbol (Kreis oder Kreuz) in das Element, eingefügt.
+ */
 function updateCurrentPlayerDisplay() {
+    // Holt das HTML-Element mit der ID 'currentPlayerDisplay' und speichert es in der Variablen 'display'.
+    // Dieses Element wird genutzt, um den aktuellen Spieler anzuzeigen.
     const display = document.getElementById('currentPlayerDisplay');
+
+    // Prüft, welcher Spieler aktuell am Zug ist:
+    // Wenn 'currentPlayer' gleich 'circle' ist, wird das Kreis-SVG generiert (generateCircleSVG()),
+    // andernfalls wird das Kreuz-SVG generiert (generateCrossSVG()). Das Ergebnis wird in 'svg' gespeichert.
     const svg = currentPlayer === 'circle' ? generateCircleSVG() : generateCrossSVG();
+
+    // Aktualisiert den Inhalt des 'display'-Elements, um den aktuellen Spieler anzuzeigen.
+    // Fügt dabei den Text "Spieler am Zug: " zusammen mit dem passenden SVG-Symbol ein.
     display.innerHTML = `Spieler am Zug: ${svg}`;
 }
 
@@ -84,10 +97,20 @@ function updateCurrentPlayerDisplay() {
  *   .remove().
  */
 function restartGame() {
+    //erstellt ein neues Array mit 9 Elementen, in dem alle Elemente auf null gesetzt sind.
     fields = Array(9).fill(null);
     
     // Aktuellen Spieler zurücksetzen (falls nötig)
     currentPlayer = 'circle'; // Beispiel: Der Kreis beginnt immer.
+
+    // 1. Wählt das HTML-Element mit der ID 'currentPlayerDisplay' aus und speichert es in der Variablen 'display'.
+    // Dieses Element wird genutzt, um den aktuellen Spieler oder Nachrichten (z. B. "Unentschieden!") anzuzeigen.
+    const display = document.getElementById('currentPlayerDisplay');
+
+    // 2. Entfernt die CSS-Klasse 'unentschieden' vom 'display'-Element, falls sie vorhanden ist.
+    // Die Klasse 'unentschieden' wird typischerweise verwendet, um eine besondere Formatierung (z. B. rote Schrift) für den "Unentschieden"-Zustand anzuwenden.
+    // Wenn das Spiel neu gestartet oder fortgesetzt wird, wird diese Klasse entfernt, um das Design zurückzusetzen.
+    display.classList.remove('unentschieden')
 
     // Gezeichnete Gewinnlinie entfernen
     // Alle SVGs auswählen
@@ -97,7 +120,7 @@ function restartGame() {
         svgElements[i].remove(); 
     }
 
-    // Anzeige zurücksetzen
+    // Spieleranzeige zurücksetzen
     updateCurrentPlayerDisplay();
 
     // Spielfeld neu rendern
@@ -136,6 +159,10 @@ function handleClick(index, element) {
     if (winner) {
         // Falls ein Gewinner existiert, wird die Gewinnlinie mit der Funktion `drawWinningLine` gezeichnet.
         drawWinningLine(winner.line);
+        showMessage(`Spieler ${currentPlayer} hat gewonnen!`);
+    } else if (fields.every(field => field !== null)) {
+        // Prüfen, ob alle Felder belegt sind (Unentschieden)
+        showMessage('Unentschieden!');
     } else {
         // Falls kein Gewinner existiert, wechselt der Spieler zwischen 'circle' und 'cross' für den nächsten Zug.
         currentPlayer = currentPlayer === 'circle' ? 'cross' : 'circle';
@@ -145,6 +172,26 @@ function handleClick(index, element) {
     }
 }
 
+/** Zusammenfassung - showMessage()
+ * Die Funktion showMessage zeigt eine Nachricht (z. B. "Unentschieden!") im Anzeigeelement 'currentPlayerDisplay' an.
+ * Dabei wird die CSS-Klasse unentschieden hinzugefügt, um eine spezielle Formatierung für die Nachricht zu ermöglichen.
+ * 
+ * @param {*} message 
+ */
+function showMessage(message) {
+    // Holt das HTML-Element mit der ID 'currentPlayerDisplay' und speichert es in der Variablen 'display'.
+    // Dieses Element wird genutzt, um Nachrichten oder den aktuellen Spieler anzuzeigen.
+    const display = document.getElementById('currentPlayerDisplay');
+
+    // Fügt dem 'display'-Element die CSS-Klasse 'unentschieden' hinzu.
+    // Diese Klasse wird verwendet, um das Design (z. B. Farbe oder Stil) für die Nachricht anzupassen,
+    // z. B. bei einem Unentschieden (rote Schrift oder besondere Formatierung).
+    display.classList.add('unentschieden')
+
+    // Fügt die übergebene Nachricht (`message`) als HTML-Inhalt in das 'display'-Element ein.
+    // Dies zeigt die Nachricht, z. B. "Unentschieden!" oder "Spieler X hat gewonnen!".
+    display.innerHTML = message; 
+}
 
 /** Zusammenfassung - checkWin()
  * Die Funktion überprüft, ob es eine Gewinnkombination auf einem 3x3-Spielbrett gibt. Sie durchläuft
