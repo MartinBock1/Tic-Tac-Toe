@@ -69,3 +69,21 @@ button:active {
    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Reduzierter Schatten */
    transform: translateY(0);                   /* Button kehrt in ursprüngliche Position zurück */
 }
+
+.player-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px; /* Abstand unterhalb der Anzeige */
+    font-size: 24px; /* Optionale Schriftgröße für Text */
+    gap: 10px; /* Abstand zwischen Text und Symbol */
+}
+
+.player-display svg {
+    width: 40px; /* Größe des SVGs */
+    height: 40px;
+}
+
+.player-display.unentschieden {
+    color: #ff0000; /* Rot für Unentschieden */
+}

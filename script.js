@@ -13,6 +13,8 @@ let fields = [
 let currentPlayer = 'circle'; // Der Spieler, der als nächstes setzt
 
 function init() {
+    // Anzeige initialisieren
+    updateCurrentPlayerDisplay();
     render();
 }
 
@@ -70,23 +72,19 @@ function render() {
     document.getElementById('content').innerHTML = tableHTML;
 }
 
+function updateCurrentPlayerDisplay() {
+    const display = document.getElementById('currentPlayerDisplay');
+    const svg = currentPlayer === 'circle' ? generateCircleSVG() : generateCrossSVG();
+    display.innerHTML = `Spieler am Zug: ${svg}`;
+}
+
 /** Erklärung: restartGame()
  * - querySelectorAll('svg'): Wählt alle svg-Elemente aus dem DOM aus (z. B. die Gewinnlinie).
  * - for-Schleife: Iteriert über die NodeList der svg-Elemente und entfernt jedes Element mit
  *   .remove().
  */
 function restartGame() {
-    fields = [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-    ];
+    fields = Array(9).fill(null);
     
     // Aktuellen Spieler zurücksetzen (falls nötig)
     currentPlayer = 'circle'; // Beispiel: Der Kreis beginnt immer.
@@ -98,6 +96,9 @@ function restartGame() {
         // Jedes SVG aus dem DOM entfernen
         svgElements[i].remove(); 
     }
+
+    // Anzeige zurücksetzen
+    updateCurrentPlayerDisplay();
 
     // Spielfeld neu rendern
     render();
@@ -138,6 +139,9 @@ function handleClick(index, element) {
     } else {
         // Falls kein Gewinner existiert, wechselt der Spieler zwischen 'circle' und 'cross' für den nächsten Zug.
         currentPlayer = currentPlayer === 'circle' ? 'cross' : 'circle';
+
+        // Spieleranzeige aktualisieren
+        updateCurrentPlayerDisplay(); 
     }
 }
 
