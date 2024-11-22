@@ -1,16 +1,10 @@
 body {
    background-color: #323232;
    font-family: "Open Sans", sans-serif;
-   /* margin: 0; */
-   /* padding: 0; */
-   /* display: flex; */
-   /* justify-content: center; */
-   /* align-items: center; */
-   /* height: 100vh; */
-   /* color: white; */
 }
+
 h1 {
-    margin-bottom: 20px;
+   margin-bottom: 20px;
 }
 
 table {
@@ -29,8 +23,8 @@ td {
 }
 
 td:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
+   background-color: rgba(255, 255, 255, 0.3);
+   cursor: pointer;
 }
 
 /* Nur innere Trennlinien */
@@ -40,4 +34,38 @@ tr:not(:last-child) td {
 
 td:not(:last-child) {
    border-right: 5px solid white; /* Vertikale Linien innerhalb */
+}
+
+.center {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.mt-32 {
+   margin-top: 32px;
+}
+
+button {
+   display: block;                              /* Block-Element, um zentrieren zu erleichtern */
+   padding: 15px 30px;                          /* Vergrößert den Button durch Innenabstand */
+   font-size: 18px;                             /* Setzt eine gut lesbare Schriftgröße */
+   color: #fefefe;                            /* Weißer Text */
+   background-color: #00b0ef;                 /* Helles Blau für den Button-Hintergrund */
+   border-color: #fefefe;                     /* Weißer Border */
+   border-radius: 8px;                          /* Runde Ecken für ein modernes Design */
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);  /* Schatten für einen 3D-Effekt */
+   cursor: pointer;                             /* Ändert den Mauszeiger bei Hover in eine Hand */
+   transition: all 0.3s ease;                   /* Glatte Übergänge bei Hover */
+}
+
+button:hover {
+   background-color: #008cbe;                /* Etwas dunkleres Blau beim Überfahren */
+   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Intensiverer Schatten beim Hover */
+}
+
+button:active {
+   background-color: #006f98;                /* Noch dunkler beim Klicken */
+   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Reduzierter Schatten */
+   transform: translateY(0);                   /* Button kehrt in ursprüngliche Position zurück */
 }

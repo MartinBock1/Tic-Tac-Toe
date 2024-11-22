@@ -70,6 +70,39 @@ function render() {
     document.getElementById('content').innerHTML = tableHTML;
 }
 
+/** Erklärung: restartGame()
+ * - querySelectorAll('svg'): Wählt alle svg-Elemente aus dem DOM aus (z. B. die Gewinnlinie).
+ * - for-Schleife: Iteriert über die NodeList der svg-Elemente und entfernt jedes Element mit
+ *   .remove().
+ */
+function restartGame() {
+    fields = [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+    ];
+    
+    // Aktuellen Spieler zurücksetzen (falls nötig)
+    currentPlayer = 'circle'; // Beispiel: Der Kreis beginnt immer.
+
+    // Gezeichnete Gewinnlinie entfernen
+    // Alle SVGs auswählen
+    const svgElements = document.querySelectorAll('svg'); 
+    for (let i = 0; i < svgElements.length; i++) {
+        // Jedes SVG aus dem DOM entfernen
+        svgElements[i].remove(); 
+    }
+
+    // Spielfeld neu rendern
+    render();
+}
+
 /** Zusammenfassung - handleClick()
  * Die Funktion handleClick wird ausgelöst, wenn ein Spieler auf ein Spielfeld klickt. Sie:
  * - Speichert den Zug des aktuellen Spielers im Spielfeld-Array.
